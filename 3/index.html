@@ -1,0 +1,47 @@
+<!--  task: https://learn.javascript.ru/task/create-notification -->
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <h2>Уведомление</h2>
+
+  
+
+  <script>
+    function showNotification(options) {
+      let message = document.createElement('div');
+      message.style.top = options.top + 'px';
+      message.style.right = options.right +'px';
+      message.innerHTML = options.html;
+      message.classList.add('notification');
+      message.classList.add(options.className);
+      document.body.appendChild(message);
+      setTimeout(() => message.remove(), 1500);
+
+    }
+    
+
+    // тест работоспособности
+     let i = 0;
+
+    setInterval(function() {
+      showNotification({
+        top: 10,
+        right: 10,
+        html: 'Привет ' + ++i,
+        className: "welcome"
+      });
+    }, 2000); 
+  </script>
+
+
+</body>
+
+</html>
