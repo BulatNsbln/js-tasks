@@ -1,0 +1,67 @@
+<!-- https://learn.javascript.ru/task/carousel -->
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+  <div id="carousel" class="carousel">
+    <button class="arrow prev">⇦</button>
+    <div class="gallery">
+      <ul class="images">
+        <li><img src="https://js.cx/carousel/1.png"></li>
+        <li><img src="https://js.cx/carousel/2.png"></li>
+        <li><img src="https://js.cx/carousel/3.png"></li>
+        <li><img src="https://js.cx/carousel/4.png"></li>
+        <li><img src="https://js.cx/carousel/5.png"></li>
+        <li><img src="https://js.cx/carousel/6.png"></li>
+        <li><img src="https://js.cx/carousel/7.png"></li>
+        <li><img src="https://js.cx/carousel/8.png"></li>
+        <li><img src="https://js.cx/carousel/9.png"></li>
+        <li><img src="https://js.cx/carousel/10.png"></li>
+      </ul>
+    </div>
+    <button class="arrow next">⇨</button>
+  </div>
+
+  <script>
+    class Carousel {
+      constructor({width, count, elem}) {
+        this.width = width;
+        this.count = count; 
+        this.elem = elem;
+        
+        this.list = elem.querySelector('ul');
+        this.listElems = elem.querySelectorAll('li');
+
+        this.position = 0;
+      }
+
+      onPrevClick() {
+        this.position = Math.min(this.position + this.width * this.count, 0)
+        this.list.style.marginLeft = this.position + 'px';
+      }
+
+      onNextClick() {
+        this.position = Math.max(this.position - this.width * this.count, - this.width * (this.listElems.length - this.count));
+        this.list.style.marginLeft = this.position + 'px';
+      }
+    }
+    
+    
+    let carousel1 = new Carousel({
+      width: 130,
+      count: 3,
+      elem: document.getElementById('carousel')
+    });
+
+    carousel.querySelector('.prev').onclick = () => carousel1.onPrevClick();
+    carousel.querySelector('.next').onclick = () => carousel1.onNextClick() ;
+
+  </script>
+</body>
+
+</html>
