@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="index.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js"></script>
+  <script src="https://cdn.polyfill.io/v1/polyfill.js?features=Element.prototype.closest"></script>
+</head>
+
+<body>
+
+  <script>
+    class Carousel  {
+      constructor ({images, width, count, template}) {
+        
+        this.images = images;
+        this.template = template;
+        this.width = width;
+        this.count = count;
+        
+        this.position = 0;
+      }
+      
+      getElem() {
+        if (this.elem) {
+          return this.elem;
+        }
+        
+        let html = this.template({
+            images: this.images
+        });
+
+        let tmp = document.createElement('div'); // html = '<div class="carousel">...</div>'
+        tmp.innerHTML = html;
+        
+        this.elem = tmp.firstChild;
+        
+        this.list = this.elem.querySelector('ul');
+        this.listElems = this.elem.querySelectorAll('li');
+        this.prevButton = this.elem.querySelector('.prev');
+        this.nextButton = this.elem.querySelector('.next');
+        this.nextButton.onclick = () => this.next();
+        this.prevButton.onclick = () => this.prev();
+        
+        return this.elem;
+      }
+      
+      next() {
+        // сдвиг вправо
+        // последнее передвижение вправо может быть не на 3, а на 2 или 1 элемент
+        this.position = Math.max(this.position - this.width * this.count, -this.width * (this.listElems.length - this.count));
+        this.list.style.marginLeft = this.position + 'px';
+      }
+
+      prev()  {
+        // сдвиг влево
+        // последнее передвижение влево может быть не на 3, а на 2 или 1 элемент
+        this.position = Math.min(this.position + this.width * this.count, 0)
+        this.list.style.marginLeft = this.position + 'px';
+      }
+    }
+    
+    let carousel = new Carousel({
+      images: [
+        'https://js.cx/carousel/1.png',
+        'https://js.cx/carousel/2.png',
+        'https://js.cx/carousel/3.png',
+        'https://js.cx/carousel/4.png',
+        'https://js.cx/carousel/5.png',
+        'https://js.cx/carousel/6.png',
+        'https://js.cx/carousel/7.png',
+        'https://js.cx/carousel/8.png',
+        'https://js.cx/carousel/9.png',
+        'https://js.cx/carousel/10.png'
+      ],
+      width: 130,
+      count: 3,
+      // превратить это в нормальный шаблон lodash
+      template:  _.template(`<div class="carousel">
+        <button class="arrow prev">⇦</button>
+        <div class="gallery">
+          <ul class="images">
+            <% for(let src of images) { %>
+            <li><img src="<%=src%>"></li>
+            <% } %>
+          </ul>
+        </div>
+        <button class="arrow next">⇨</button>
+      </div>`)
+    });
+    
+    document.body.append(carousel.getElem());
+    
+    
+  </script>
+</body>
+
+</html>
