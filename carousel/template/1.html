@@ -46,15 +46,11 @@
       }
       
       next() {
-        // сдвиг вправо
-        // последнее передвижение вправо может быть не на 3, а на 2 или 1 элемент
         this.position = Math.max(this.position - this.width * this.count, -this.width * (this.listElems.length - this.count));
         this.list.style.marginLeft = this.position + 'px';
       }
 
       prev()  {
-        // сдвиг влево
-        // последнее передвижение влево может быть не на 3, а на 2 или 1 элемент
         this.position = Math.min(this.position + this.width * this.count, 0)
         this.list.style.marginLeft = this.position + 'px';
       }
@@ -75,7 +71,6 @@
       ],
       width: 130,
       count: 3,
-      // превратить это в нормальный шаблон lodash
       template:  _.template(`<div class="carousel">
         <button class="arrow prev">⇦</button>
         <div class="gallery">
