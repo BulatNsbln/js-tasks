@@ -1,0 +1,98 @@
+<!-- https://learn.javascript.ru/task/behavior-tooltip -->
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      height: 2000px;
+      /* подсказка должна работать независимо от прокрутки */
+    }
+
+    .tooltip {
+      position: fixed;
+      padding: 10px 20px;
+      /* красивости... */
+
+      border: 1px solid #b3c9ce;
+      border-radius: 4px;
+      text-align: center;
+      font: italic 14px/1.3 sans-serif;
+      color: #333;
+      background: #fff;
+      box-shadow: 3px 3px 3px rgba(0, 0, 0, .3);
+    }
+  </style>
+</head>
+
+<body>
+
+  <p>ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя</p>
+  <p>ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя ЛяЛяЛя</p>
+
+  <button data-tooltip="подсказка длиннее, чем элемент">Короткая кнопка</button>
+  <button data-tooltip="HTML<br>подсказка">Ещё кнопка</button>
+
+  <p>Прокрутите страницу, чтобы ссылки были вверху и проверьте, правильно ли показываются подсказки.</p>
+
+
+  <script>
+    class Messages{
+      constructor(attribute) {
+        this._attribute = attribute;
+        this._showingTooltip;
+        this._tooltipElem;
+
+        document.onmouseover = event => this._showMessage(event);
+        document.onmouseout = event => this._delMessage(event);
+      }
+
+      _showMessage(event) {
+        let target = event.target; 
+        let tooltip = target.getAttribute(this._attribute);
+        if(!tooltip) return;
+
+        this._addMessage(tooltip);
+        this._setCoords(target, this._tooltipElem);
+        
+        this._showingTooltip = this._tooltipElem;
+      }
+
+      _delMessage(event) {
+        if (this._showingTooltip) {
+          document.body.removeChild(this._showingTooltip);
+          this._showingTooltip = null;
+        };
+      }
+
+      _addMessage(tooltip) {
+        this._tooltipElem = document.createElement('div');
+        this._tooltipElem.className = 'tooltip';
+        this._tooltipElem.innerHTML = tooltip;
+        document.body.appendChild(this._tooltipElem);
+      }
+
+      _setCoords(target, tooltipElem) {
+        let coords = target.getBoundingClientRect();
+
+        let left = coords.left + (target.offsetWidth - tooltipElem.offsetWidth) / 2;
+        if (left < 0) left = 0; 
+
+        let top = coords.top - tooltipElem.offsetHeight - 5;
+        if (top < 0) { 
+          top = coords.top + target.offsetHeight + 5;
+        }
+
+        tooltipElem.style.left = left + 'px';
+        tooltipElem.style.top = top + 'px';
+      }
+    };
+    
+    new Messages('data-tooltip');
+  </script>
+
+</body>
+
+</html>
