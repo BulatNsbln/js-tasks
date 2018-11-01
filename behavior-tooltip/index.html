@@ -1,5 +1,3 @@
-<!-- https://learn.javascript.ru/task/behavior-tooltip -->
-
 <!DOCTYPE HTML>
 <html>
 
@@ -10,12 +8,10 @@
       height: 2000px;
       /* подсказка должна работать независимо от прокрутки */
     }
-
     .tooltip {
       position: fixed;
       padding: 10px 20px;
       /* красивости... */
-
       border: 1px solid #b3c9ce;
       border-radius: 4px;
       text-align: center;
@@ -42,49 +38,37 @@
     class Messages{
       constructor(attribute) {
         this._attribute = attribute;
-        this._showingTooltip;
         this._tooltipElem;
-
         document.onmouseover = event => this._showMessage(event);
         document.onmouseout = () => this._delMessage();
       }
-
       _showMessage(event) {
         let target = event.target; 
         let tooltip = target.getAttribute(this._attribute);
         if(!tooltip) return;
-
         this._addMessage(tooltip);
         this._setCoords(target, this._tooltipElem);
-        
-        this._showingTooltip = this._tooltipElem;
       }
-
       _delMessage() {
-        if (this._showingTooltip) {
-          document.body.removeChild(this._showingTooltip);
-          this._showingTooltip = null;
+        if (this._tooltipElem) {
+          document.body.removeChild(this._tooltipElem);
+          this._tooltipElem = null;
         };
       }
-
       _addMessage(tooltip) {
         this._tooltipElem = document.createElement('div');
         this._tooltipElem.className = 'tooltip';
         this._tooltipElem.innerHTML = tooltip;
         document.body.appendChild(this._tooltipElem);
       }
-
       _setCoords(target, tooltipElem) {
         let coords = target.getBoundingClientRect();
-
         let left = coords.left + (target.offsetWidth - tooltipElem.offsetWidth) / 2;
         if (left < 0) left = 0; 
-
         let top = coords.top - tooltipElem.offsetHeight - 5;
         if (top < 0) { 
           top = coords.top + target.offsetHeight + 5;
         }
-
         tooltipElem.style.left = left + 'px';
         tooltipElem.style.top = top + 'px';
       }
