@@ -46,7 +46,7 @@
         this._tooltipElem;
 
         document.onmouseover = event => this._showMessage(event);
-        document.onmouseout = event => this._delMessage(event);
+        document.onmouseout = () => this._delMessage();
       }
 
       _showMessage(event) {
@@ -60,7 +60,7 @@
         this._showingTooltip = this._tooltipElem;
       }
 
-      _delMessage(event) {
+      _delMessage() {
         if (this._showingTooltip) {
           document.body.removeChild(this._showingTooltip);
           this._showingTooltip = null;
