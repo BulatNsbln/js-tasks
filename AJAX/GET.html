@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="messages.css">
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <form id="form">
+    <input type="submit" value="Получить список пользователей">
+  </form>
+  <div id='container'></div>
+  
+  <script>
+
+    form.onsubmit = function() {  
+      event.preventDefault();
+
+      let xhr = new XMLHttpRequest();
+
+      xhr.open('GET', 'http://test-api.javascript.ru/v1/bulatNas/users');
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send();
+      xhr.onload = function() {
+        if (xhr.status != 200) {
+          alert( xhr.status + ': ' + xhr.statusText ); // пример вывода: 404: Not Found
+        } else {
+          container.textContent = xhr.responseText;
+        }
+      };
+      xhr.onerror = function() {
+      alert("Sorry error! Try again later");
+    };
+    };
+      
+
+     
+
+  </script>
+</body>
+
+</html>

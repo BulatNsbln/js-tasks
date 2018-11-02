@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="messages.css">
+  <meta charset="utf-8">
+</head>
+
+<body>
+  
+  
+  <form id="form">
+    <p>Name: <input type="text" name="fullName" required></p>
+    <p>Email: <input type="email" name="email" required></p>
+    <p>Birthday: <input type="date" name="birthday" required></p>
+    <input type="submit">
+  </form>
+  
+<script>
+
+  form.onsubmit = function(event) {
+    event.preventDefault();
+    
+    let fullName = form.fullName.value;
+    let email = form.email.value;
+    let birthday = form.birthday.value;
+    
+    let xhr = new XMLHttpRequest();
+    
+    xhr.open('POST', 'http://test-api.javascript.ru/v1/bulatNas/users');
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+      fullName: fullName,
+      email: email,
+      birthday: birthday
+      })
+    );
+    
+    xhr.onload = function() {
+      if(xhr.status != 200) {
+        alert('Error + xhr.responseText');
+      } else {
+        alert('OK!');
+      }
+    };
+    xhr.onerror = function() {
+    alert("Sorry error! Try again later");
+    };
+  };
+
+</script>
+</body>
+
+</html>
