@@ -1,0 +1,83 @@
+<!-- https://learn.javascript.ru/task/emulate-placeholder -->
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    /* стиль для input с плейсхолдером */
+
+    .placeholder {
+      color: blue;
+      font-family: serif;
+    }
+    /* стиль для подсказки над элементом (вместо плейсхолдера при фокусировке) */
+
+    .placeholder-tooltip {
+      color: blue;
+      font-family: serif;
+      position: fixed;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div>
+    <p>Красивый placeholder:</p>
+    <input type="email" data-placeholder="E-mail">
+    <p>2</p>
+    <input type="text" data-placeholder="FullName">
+    <p>3</p>
+    <input type="text" data-placeholder="FirstName">
+    <p>4</p>
+    <input type="text" data-placeholder="SurName">
+    <p>5</p>
+    <input type="text" data-placeholder="Country">
+  </div>
+
+  <script>
+    
+    class PlaceholderTooltip {
+      constructor(input) {
+        this._input = input;
+        this._showPlaceholder();
+        this._addTooltip();
+        this._input.onfocus = () => this._setOnfocus();
+        this._input.onblur = () => this._setOnblur();
+      }
+      _showPlaceholder() {
+        this._input.classList.add('placeholder');
+        this._input.value = this._input.dataset.placeholder;
+      }
+      _addTooltip() {
+        this._message = document.createElement('div');
+        this._message.innerHTML = this._input.dataset.placeholder;
+        this._message.classList.add('placeholder-tooltip');
+        document.body.appendChild(this._message);       
+        this._positionTooltip();
+      }
+      _positionTooltip() {
+        let coords = this._input.getBoundingClientRect();
+        this._message.style.top = ( coords.top - coords.height + 2) + 'px';
+        this._message.style.display = 'none'; 
+      }
+      _setOnfocus() {
+        this._input.value = '';
+        this._message.style.display = 'block';
+      }
+      _setOnblur() {
+        this._showPlaceholder();
+        this._message.style.display = 'none';
+      }
+    };
+
+    let inputs = document.querySelectorAll('[data-placeholder]');   
+    
+    for(let input of inputs) {
+      new PlaceholderTooltip(input);
+    };
+  </script>
+</body>
+</html>
