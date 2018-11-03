@@ -1,0 +1,12 @@
+textarea {
+    resize: none;
+    position: absolute;
+}
+
+button {
+    position: absolute;
+}
+
+#bagua-table {
+    position: relative;
+}
