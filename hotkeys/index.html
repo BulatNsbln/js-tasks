@@ -1,0 +1,71 @@
+<!-- https://learn.javascript.ru/task/hotkeys -->
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <link type="text/css" rel="stylesheet" href="my.css">
+</head>
+
+<body>
+
+  <ul>
+    <li>Ctrl-E to start editing.</li>
+    <li autofocus>While editing: Ctrl-S to save, Esc to cancel.</li>
+  </ul>
+
+
+  <textarea id="area"></textarea>
+  <div id="view">Text</div>
+
+  <script>
+      class Editer {
+        constructor(area, view) {
+            this._area = area;
+            this._view = view;
+            document.onkeydown = event => this._doKeydown(event);
+        }
+
+        _doKeydown(event) {
+            if(event.keyCode == 69 && event.ctrlKey) {
+                this._edit();
+                return false;
+            }
+            if(event.keyCode == 27) {
+                this._cancel();
+                return false;
+            }
+            if(event.keyCode == 83 && event.ctrlKey) {
+                this._save();
+                return false;
+            }
+        }
+
+        _edit() {
+            this._area.style.display = 'block';
+            this._view.style.display = 'none';
+            this._area.innerHTML = this._view.innerHTML;
+            this._area.focus();
+        }
+
+        _save() {
+            this._area.style.display = 'none';
+            this._view.style.display = 'block';
+            this._view.innerHTML = this._area.value;
+        }
+        
+        _cancel() {
+            this._area.style.display = 'none';
+            this._area.value = this._view.innerHTML;
+            this._view.style.display = 'block';
+        }
+      };
+
+      let area = document.getElementById('area');
+      let view = document.getElementById('view');
+      new Editer(area, view);
+  </script>
+
+</body>
+
+</html>
